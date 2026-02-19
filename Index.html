@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gym Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root[data-theme="dark"] {
+  --bg:        #0a0a0f;
+  --bg2:       #13131e;
+  --bg3:       #1e1e2e;
+  --border:    #1e1e2e;
+  --border2:   #2e2e4e;
+  --text:      #e8e8f0;
+  --text2:     #888;
+  --text3:     #444;
+  --accent:    #a0a0ff;
+  --accent-bg: #a0a0ff22;
+  --cell-bg:   #13131e;
+  --cell-bdr:  #2a2a3a;
+  --input-bg:  #1e1e2e;
+  --shadow:    rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] {
+  --bg:        #f0f0f7;
+  --bg2:       #ffffff;
+  --bg3:       #e8e8f2;
+  --border:    #ddddf0;
+  --border2:   #c0c0e0;
+  --text:      #1a1a2e;
+  --text2:     #666;
+  --text3:     #bbb;
+  --accent:    #5a5aff;
+  --accent-bg: #5a5aff18;
+  --cell-bg:   #f8f8ff;
+  --cell-bdr:  #ddddf0;
+  --input-bg:  #f0f0fa;
+  --shadow:    rgba(0,0,0,0.08);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', 'Courier New', monospace;
+  transition: background 0.3s, color 0.3s;
+}
+.app-container { max-width: 980px; margin: 0 auto; padding: 28px 16px; }
+
+.top-bar {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
+}
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 7vw, 66px);
+  letter-spacing: 4px; color: var(--text); line-height: 1;
+}
+
+.theme-toggle {
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 50px; padding: 4px;
+  display: flex; cursor: pointer; gap: 2px;
+}
+.theme-toggle span {
+  padding: 4px 12px; border-radius: 50px;
+  font-size: 13px; transition: background 0.2s, color 0.2s; color: var(--text2);
+}
+.theme-toggle span.active { background: var(--accent); color: #fff; }
+
+.nav-tabs {
+  display: flex; gap: 4px;
+  background: var(--bg3); border-radius: 12px;
+  padding: 4px; margin-bottom: 24px; width: fit-content;
+}
+.tab-btn {
+  padding: 8px 20px; border-radius: 9px; border: none;
+  background: transparent; color: var(--text2);
+  font-family: inherit; font-size: 13px; cursor: pointer;
+  transition: background 0.2s, color 0.2s; white-space: nowrap;
+}
+.tab-btn.active { background: var(--accent); color: #fff; }
+.tab-btn:hover:not(.active) { background: var(--border2); color: var(--text); }
+
+.section { display: none; }
+.section.active { display: block; }
+
+.year-nav { display: flex; align-items: center; gap: 8px; }
+.year-btn {
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text); padding: 6px 14px; border-radius: 8px;
+  cursor: pointer; font-family: inherit; font-size: 14px; transition: background 0.2s;
+}
+.year-btn:hover { background: var(--border2); }
+
+.legend {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  align-items: center; margin-bottom: 20px; font-size: 13px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; color: var(--text2); }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+.legend-hint { color: var(--text3); font-size: 12px; margin-left: auto; }
+
+.stats-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.stat-card {
+  background: var(--bg2); border-radius: 12px;
+  padding: 12px 18px; display: flex; flex-direction: column;
+  align-items: center; min-width: 76px;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 30px; line-height: 1; }
+.stat-lbl { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+#months-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+  gap: 14px;
+}
+.month-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px;
+  transition: border-color 0.2s;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.month-card:hover { border-color: var(--border2); }
+.month-card.current { border-color: var(--accent); }
+.month-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.month-name { font-family: 'Bebas Neue', sans-serif; font-size: 21px; letter-spacing: 2px; }
+.month-name.current-name { color: var(--accent); }
+.month-mini-stats { display: flex; gap: 8px; margin-top: 2px; font-size: 11px; }
+.current-badge {
+  font-size: 10px; color: var(--accent);
+  background: var(--accent-bg); padding: 2px 8px; border-radius: 20px;
+}
+.dow-header { display: grid; grid-template-columns: repeat(7, 32px); gap: 3px; margin-bottom: 4px; }
+.dow-cell { width: 32px; text-align: center; font-size: 10px; color: var(--text3); }
+.days-grid { display: grid; grid-template-columns: repeat(7, 32px); gap: 3px; }
+.day-cell {
+  width: 32px; height: 32px; border-radius: 6px;
+  border: 1px solid var(--cell-bdr); background: var(--cell-bg);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--text3);
+  transition: transform 0.1s, border-color 0.2s; user-select: none;
+}
+.day-cell:hover { transform: scale(1.14); border-color: var(--text2); }
+.day-cell.empty { opacity: 0; pointer-events: none; }
+.day-cell.green  { background: #22c55e22; border-color: #22c55e; color: #22c55e; }
+.day-cell.yellow { background: #eab30822; border-color: #eab308; color: #eab308; }
+.day-cell.red    { background: #ef444422; border-color: #ef4444; color: #ef4444; }
+.day-cell.today  { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* WEIGHT */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width:620px){ .two-col { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px;
+  box-shadow: 0 2px 8px var(--shadow); margin-bottom: 16px;
+}
+.card h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+  letter-spacing: 2px; margin-bottom: 14px; color: var(--accent);
+}
+.form-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.form-input {
+  flex: 1; min-width: 100px;
+  background: var(--input-bg); border: 1px solid var(--border2);
+  border-radius: 8px; color: var(--text);
+  font-family: inherit; font-size: 13px; padding: 8px 12px;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--accent); }
+textarea.form-input { resize: vertical; min-height: 60px; }
+.btn-add {
+  background: var(--accent); border: none; border-radius: 8px;
+  color: #fff; font-family: inherit; font-size: 13px;
+  padding: 8px 16px; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
+}
+.btn-add:hover { opacity: 0.85; }
+
+.log-list { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
+.log-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg3); border-radius: 8px; padding: 8px 12px; font-size: 13px;
+}
+.log-item-left { display: flex; flex-direction: column; }
+.log-date { color: var(--text2); font-size: 11px; }
+.log-val { font-weight: 500; }
+.log-note { color: var(--text2); font-size: 11px; margin-top: 2px; }
+.log-del {
+  background: none; border: none; color: var(--text3);
+  cursor: pointer; font-size: 16px; padding: 0 4px; transition: color 0.2s;
+}
+.log-del:hover { color: #ef4444; }
+
+.weight-summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+.weight-stat { background: var(--bg3); border-radius: 10px; padding: 10px; text-align: center; }
+.ws-num { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--accent); }
+.ws-lbl { font-size: 10px; color: var(--text2); }
+.chart-wrap { width: 100%; height: 130px; position: relative; }
+
+/* DIET */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+}
+.section-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; }
+
+.diet-status-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.diet-status-btn {
+  flex: 1; padding: 8px; border-radius: 8px;
+  border: 1px solid var(--border2); background: var(--bg3);
+  color: var(--text2); font-family: inherit; font-size: 12px;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.diet-status-btn.sel-green  { background: #22c55e22; border-color: #22c55e; color: #22c55e; }
+.diet-status-btn.sel-yellow { background: #eab30822; border-color: #eab308; color: #eab308; }
+.diet-status-btn.sel-red    { background: #ef444422; border-color: #ef4444; color: #ef4444; }
+
+.diet-cal-header { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 4px; }
+.diet-cal-dow { text-align: center; font-size: 10px; color: var(--text3); }
+.diet-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+.diet-dot {
+  aspect-ratio: 1; border-radius: 4px;
+  background: var(--bg3); border: 1px solid var(--border);
+}
+.diet-dot.green  { background: #22c55e44; border-color: #22c55e; }
+.diet-dot.yellow { background: #eab30844; border-color: #eab308; }
+.diet-dot.red    { background: #ef444444; border-color: #ef4444; }
+
+.diet-log-item { background: var(--bg3); border-radius: 10px; padding: 10px 14px; font-size: 13px; margin-bottom: 6px; }
+.diet-log-header { display: flex; justify-content: space-between; align-items: center; }
+.diet-log-date { font-size: 11px; color: var(--text2); }
+.diet-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; }
+.diet-badge.green  { background: #22c55e22; color: #22c55e; }
+.diet-badge.yellow { background: #eab30822; color: #eab308; }
+.diet-badge.red    { background: #ef444422; color: #ef4444; }
+.diet-log-food  { color: var(--text2); font-size: 11px; margin-top: 4px; }
+.diet-log-notes { color: var(--text3); font-size: 11px; margin-top: 2px; font-style: italic; }
+
+.footer { text-align: center; margin-top: 36px; color: var(--text3); font-size: 12px; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="app-container">
+
+  <div class="top-bar">
+    <h1>GYM TRACKER</h1>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <span id="th-dark" class="active">🌙 Oscuro</span>
+      <span id="th-light">☀️ Claro</span>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showTab('gym')">🏋️ Gym</button>
+    <button class="tab-btn" onclick="showTab('peso')">⚖️ Peso</button>
+    <button class="tab-btn" onclick="showTab('dieta')">🥗 Dieta</button>
+  </div>
+
+  <!-- ══ GYM ══ -->
+  <div id="sec-gym" class="section active">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Fui 💪</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#eab308"></div>A medias 😅</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>No fui ❌</div>
+        <span class="legend-hint">Click para cambiar</span>
+      </div>
+      <div class="year-nav">
+        <button class="year-btn" onclick="changeYear(-1)">◀</button>
+        <span id="year-display" style="font-size:20px;min-width:50px;text-align:center"></span>
+        <button class="year-btn" onclick="changeYear(1)">▶</button>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-card" style="border:1px solid #22c55e33"><span class="stat-num" id="sg" style="color:#22c55e">0</span><span class="stat-lbl">Días fui</span></div>
+      <div class="stat-card" style="border:1px solid #eab30833"><span class="stat-num" id="sy" style="color:#eab308">0</span><span class="stat-lbl">A medias</span></div>
+      <div class="stat-card" style="border:1px solid #ef444433"><span class="stat-num" id="sr" style="color:#ef4444">0</span><span class="stat-lbl">No fui</span></div>
+    </div>
+    <div id="months-grid"></div>
+  </div>
+
+  <!-- ══ PESO ══ -->
+  <div id="sec-peso" class="section">
+    <div class="section-header"><h2>⚖️ Registro de Peso</h2></div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <h2>Agregar</h2>
+          <div class="form-row">
+            <input type="date" id="w-date" class="form-input"/>
+            <input type="number" id="w-kg" class="form-input" placeholder="Peso (kg)" step="0.1" min="30" max="300"/>
+          </div>
+          <div class="form-row">
+            <input type="text" id="w-note" class="form-input" placeholder="Nota (opcional)"/>
+            <button class="btn-add" onclick="addWeight()">+ Agregar</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Resumen</h2>
+          <div class="weight-summary">
+            <div class="weight-stat"><div class="ws-num" id="w-cur">—</div><div class="ws-lbl">Actual (kg)</div></div>
+            <div class="weight-stat"><div class="ws-num" id="w-min">—</div><div class="ws-lbl">Mínimo</div></div>
+            <div class="weight-stat"><div class="ws-num" id="w-max">—</div><div class="ws-lbl">Máximo</div></div>
+          </div>
+          <div id="w-change" style="font-size:12px;color:var(--text2);text-align:center"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>Evolución</h2>
+          <div class="chart-wrap"><canvas id="wChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>Historial</h2>
+          <div class="log-list" id="w-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DIETA ══ -->
+  <div id="sec-dieta" class="section">
+    <div class="section-header">
+      <h2>🥗 Registro de Dieta</h2>
+      <div class="year-nav">
+        <button class="year-btn" onclick="chDietY(-1)">◀</button>
+        <span id="d-year" style="font-size:18px;min-width:50px;text-align:center"></span>
+        <button class="year-btn" onclick="chDietY(1)">▶</button>
+      </div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <h2>Registrar día</h2>
+          <div class="form-row"><input type="date" id="d-date" class="form-input"/></div>
+          <div style="font-size:12px;color:var(--text2);margin-bottom:8px">¿Seguiste la dieta hoy?</div>
+          <div class="diet-status-row">
+            <button class="diet-status-btn" id="dsb-green"  onclick="selDS('green')" >✅ Sí, completa</button>
+            <button class="diet-status-btn" id="dsb-yellow" onclick="selDS('yellow')">⚡ A medias</button>
+            <button class="diet-status-btn" id="dsb-red"    onclick="selDS('red')"   >❌ No seguí</button>
+          </div>
+          <div class="form-row" style="margin-top:8px">
+            <textarea id="d-food" class="form-input" placeholder="¿Qué comiste? (desayuno, almuerzo, cena...)"></textarea>
+          </div>
+          <div class="form-row">
+            <textarea id="d-notes" class="form-input" placeholder="Notas u observaciones..." style="min-height:48px"></textarea>
+            <button class="btn-add" onclick="addDiet()" style="align-self:flex-end">+ Guardar</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Stats del año</h2>
+          <div class="stats-bar" style="margin-bottom:0">
+            <div class="stat-card" style="border:1px solid #22c55e33;flex:1"><span class="stat-num" id="ds-g" style="color:#22c55e">0</span><span class="stat-lbl">Completa</span></div>
+            <div class="stat-card" style="border:1px solid #eab30833;flex:1"><span class="stat-num" id="ds-y" style="color:#eab308">0</span><span class="stat-lbl">A medias</span></div>
+            <div class="stat-card" style="border:1px solid #ef444433;flex:1"><span class="stat-num" id="ds-r" style="color:#ef4444">0</span><span class="stat-lbl">No seguí</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+            <button class="year-btn" style="padding:4px 10px;font-size:12px" onclick="chDietM(-1)">◀</button>
+            <span id="d-month-lbl" style="font-size:13px;flex:1;text-align:center;font-family:'Bebas Neue',sans-serif;letter-spacing:1px"></span>
+            <button class="year-btn" style="padding:4px 10px;font-size:12px" onclick="chDietM(1)">▶</button>
+          </div>
+          <div class="diet-cal-header">
+            <div class="diet-cal-dow">Lu</div><div class="diet-cal-dow">Ma</div>
+            <div class="diet-cal-dow">Mi</div><div class="diet-cal-dow">Ju</div>
+            <div class="diet-cal-dow">Vi</div><div class="diet-cal-dow">Sá</div>
+            <div class="diet-cal-dow">Do</div>
+          </div>
+          <div class="diet-cal-grid" id="d-cal"></div>
+        </div>
+        <div class="card">
+          <h2>Historial</h2>
+          <div class="log-list" id="d-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Datos guardados automáticamente en tu navegador ✓</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+// ── DATA ──
+const MONTHS = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const DOW = ["Lu","Ma","Mi","Ju","Vi","Sá","Do"];
+const CYCLE = [null,"green","yellow","red"];
+const K = { gym:"gt-gym", w:"gt-weight", d:"gt-diet", th:"gt-theme" };
+
+let gymD={}, wD=[], dD={};
+let gYear=new Date().getFullYear();
+let dYear=new Date().getFullYear(), dMonth=new Date().getMonth();
+let dStatus=null;
+let wChart=null;
+
+function load(){
+  try{gymD=JSON.parse(localStorage.getItem(K.gym)||"{}");}catch(_){}
+  try{wD=JSON.parse(localStorage.getItem(K.w)||"[]");}catch(_){}
+  try{dD=JSON.parse(localStorage.getItem(K.d)||"{}");}catch(_){}
+  const th=localStorage.getItem(K.th)||"dark";
+  applyTheme(th);
+}
+function sv(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function daysIn(y,m){return new Date(y,m+1,0).getDate();}
+function firstDay(y,m){let d=new Date(y,m,1).getDay();return d===0?6:d-1;}
+
+// ── THEME ──
+function applyTheme(th){
+  document.documentElement.setAttribute("data-theme",th);
+  localStorage.setItem(K.th,th);
+  document.getElementById("th-dark").classList.toggle("active",th==="dark");
+  document.getElementById("th-light").classList.toggle("active",th==="light");
+}
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute("data-theme");
+  applyTheme(cur==="dark"?"light":"dark");
+  renderWChart();
+}
+
+// ── TABS ──
+function showTab(t){
+  ["gym","peso","dieta"].forEach(s=>{
+    document.getElementById("sec-"+s).classList.toggle("active",s===t);
+  });
+  document.querySelectorAll(".tab-btn").forEach((b,i)=>{
+    b.classList.toggle("active",["gym","peso","dieta"][i]===t);
+  });
+  if(t==="peso") renderW();
+  if(t==="dieta") renderD();
+}
+
+// ══ GYM ══
+function changeYear(d){gYear+=d;renderGym();}
+function toggleDay(m,d){
+  const k=`${gYear}-${m}-${d}`;
+  const cur=gymD[k]??null;
+  const next=CYCLE[(CYCLE.indexOf(cur)+1)%CYCLE.length];
+  if(next===null)delete gymD[k]; else gymD[k]=next;
+  sv(K.gym,gymD); renderGym();
+}
+function renderGym(){
+  document.getElementById("year-display").textContent=gYear;
+  const today=new Date();
+  let g=0,y=0,r=0;
+  for(const[k,v]of Object.entries(gymD)){
+    if(!k.startsWith(gYear+"-"))continue;
+    if(v==="green")g++; else if(v==="yellow")y++; else if(v==="red")r++;
+  }
+  document.getElementById("sg").textContent=g;
+  document.getElementById("sy").textContent=y;
+  document.getElementById("sr").textContent=r;
+  const grid=document.getElementById("months-grid");
+  grid.innerHTML="";
+  MONTHS.forEach((mn,mi)=>{
+    const days=daysIn(gYear,mi), first=firstDay(gYear,mi);
+    const isCur=today.getFullYear()===gYear&&today.getMonth()===mi;
+    let mg=0,my=0,mr=0;
+    for(let d=1;d<=days;d++){const s=gymD[`${gYear}-${mi}-${d}`];if(s==="green")mg++;else if(s==="yellow")my++;else if(s==="red")mr++;}
+    let mini="";
+    if(mg>0)mini+=`<span style="color:#22c55e">💪${mg}</span>`;
+    if(my>0)mini+=`<span style="color:#eab308"> 😅${my}</span>`;
+    if(mr>0)mini+=`<span style="color:#ef4444"> ❌${mr}</span>`;
+    const card=document.createElement("div");
+    card.className="month-card"+(isCur?" current":"");
+    card.innerHTML=`<div class="month-header"><div><div class="month-name${isCur?" current-name":""}">${mn}</div><div class="month-mini-stats">${mini}</div></div>${isCur?'<span class="current-badge">HOY</span>':""}</div><div class="dow-header">${DOW.map(d=>`<div class="dow-cell">${d}</div>`).join("")}</div><div class="days-grid" id="dg-${mi}"></div>`;
+    grid.appendChild(card);
+    const dg=document.getElementById(`dg-${mi}`);
+    for(let i=0;i<first;i++){const e=document.createElement("div");e.className="day-cell empty";dg.appendChild(e);}
+    for(let d=1;d<=days;d++){
+      const key=`${gYear}-${mi}-${d}`;
+      const st=gymD[key]??null;
+      const isT=isCur&&today.getDate()===d;
+      const cell=document.createElement("div");
+      cell.className="day-cell"+(st?" "+st:"")+(isT?" today":"");
+      cell.textContent=d;
+      cell.title=st?({green:"Fui 💪",yellow:"A medias 😅",red:"No fui ❌"}[st]):"Sin marcar";
+      cell.addEventListener("click",()=>toggleDay(mi,d));
+      dg.appendChild(cell);
+    }
+  });
+}
+
+// ══ PESO ══
+function addWeight(){
+  const date=document.getElementById("w-date").value;
+  const kg=parseFloat(document.getElementById("w-kg").value);
+  const note=document.getElementById("w-note").value.trim();
+  if(!date||isNaN(kg)){alert("Completá la fecha y el peso.");return;}
+  wD=wD.filter(e=>e.date!==date);
+  wD.push({date,kg,note});
+  wD.sort((a,b)=>a.date.localeCompare(b.date));
+  sv(K.w,wD);
+  document.getElementById("w-kg").value="";
+  document.getElementById("w-note").value="";
+  renderW();
+}
+function delWeight(date){wD=wD.filter(e=>e.date!==date);sv(K.w,wD);renderW();}
+function renderW(){
+  const list=document.getElementById("w-list");
+  list.innerHTML="";
+  if(wD.length===0){
+    list.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:16px">Sin registros aún</div>';
+  } else {
+    [...wD].reverse().forEach(e=>{
+      const[y,m,d]=e.date.split("-");
+      const item=document.createElement("div");
+      item.className="log-item";
+      item.innerHTML=`<div class="log-item-left"><span class="log-val">${e.kg} kg</span>${e.note?`<span class="log-note">${e.note}</span>`:""}<span class="log-date">${d}/${m}/${y}</span></div><button class="log-del" onclick="delWeight('${e.date}')">✕</button>`;
+      list.appendChild(item);
+    });
+  }
+  if(wD.length>0){
+    const kgs=wD.map(e=>e.kg);
+    const cur=wD[wD.length-1].kg;
+    document.getElementById("w-cur").textContent=cur;
+    document.getElementById("w-min").textContent=Math.min(...kgs);
+    document.getElementById("w-max").textContent=Math.max(...kgs);
+    if(wD.length>=2){
+      const diff=(cur-wD[0].kg).toFixed(1);
+      const c=diff<0?"#22c55e":diff>0?"#ef4444":"#eab308";
+      document.getElementById("w-change").innerHTML=`Cambio total: <span style="color:${c}">${diff>0?"+":""}${diff} kg</span>`;
+    } else document.getElementById("w-change").textContent="";
+  } else {
+    ["w-cur","w-min","w-max"].forEach(id=>document.getElementById(id).textContent="—");
+    document.getElementById("w-change").textContent="";
+  }
+  renderWChart();
+}
+function renderWChart(){
+  const dark=document.documentElement.getAttribute("data-theme")==="dark";
+  const gc=dark?"#ffffff18":"#00000012", tc=dark?"#888":"#666";
+  if(wChart){wChart.destroy();wChart=null;}
+  const ctx=document.getElementById("wChart");
+  if(!ctx)return;
+  wChart=new Chart(ctx,{
+    type:"line",
+    data:{
+      labels:wD.map(e=>{const[y,m,d]=e.date.split("-");return`${d}/${m}`;}),
+      datasets:[{data:wD.map(e=>e.kg),borderColor:"#a0a0ff",backgroundColor:"rgba(160,160,255,0.12)",borderWidth:2,pointBackgroundColor:"#a0a0ff",pointRadius:4,tension:0.3,fill:true}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{ticks:{color:tc,font:{size:10}},grid:{color:gc}},y:{ticks:{color:tc,font:{size:10}},grid:{color:gc}}}
+    }
+  });
+}
+
+// ══ DIETA ══
+function selDS(s){
+  dStatus=s;
+  ["green","yellow","red"].forEach(c=>{
+    document.getElementById("dsb-"+c).className="diet-status-btn"+(c===s?" sel-"+c:"");
+  });
+}
+function chDietY(d){dYear+=d;renderDStats();document.getElementById("d-year").textContent=dYear;}
+function chDietM(d){
+  dMonth+=d;
+  if(dMonth<0){dMonth=11;dYear--;}
+  if(dMonth>11){dMonth=0;dYear++;}
+  renderDCal();
+}
+function addDiet(){
+  const date=document.getElementById("d-date").value;
+  const food=document.getElementById("d-food").value.trim();
+  const notes=document.getElementById("d-notes").value.trim();
+  if(!date){alert("Seleccioná una fecha.");return;}
+  if(!dStatus){alert("Seleccioná si seguiste la dieta.");return;}
+  dD[date]={status:dStatus,food,notes};
+  sv(K.d,dD);
+  document.getElementById("d-food").value="";
+  document.getElementById("d-notes").value="";
+  dStatus=null;
+  ["green","yellow","red"].forEach(c=>document.getElementById("dsb-"+c).className="diet-status-btn");
+  renderD();
+}
+function delDiet(date){delete dD[date];sv(K.d,dD);renderD();}
+function renderD(){
+  document.getElementById("d-year").textContent=dYear;
+  renderDStats();renderDCal();renderDList();
+}
+function renderDStats(){
+  let g=0,y=0,r=0;
+  for(const[k,v]of Object.entries(dD)){
+    if(!k.startsWith(dYear+"-"))continue;
+    if(v.status==="green")g++;else if(v.status==="yellow")y++;else if(v.status==="red")r++;
+  }
+  document.getElementById("ds-g").textContent=g;
+  document.getElementById("ds-y").textContent=y;
+  document.getElementById("ds-r").textContent=r;
+}
+function renderDCal(){
+  document.getElementById("d-month-lbl").textContent=`${MONTHS[dMonth]} ${dYear}`;
+  const grid=document.getElementById("d-cal");
+  grid.innerHTML="";
+  const days=daysIn(dYear,dMonth),first=firstDay(dYear,dMonth);
+  for(let i=0;i<first;i++){const e=document.createElement("div");e.className="diet-dot";e.style.opacity="0";grid.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const key=`${dYear}-${String(dMonth+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+    const entry=dD[key];
+    const dot=document.createElement("div");
+    dot.className="diet-dot"+(entry?" "+entry.status:"");
+    dot.title=entry?`${d}: ${entry.status==="green"?"✅ Completa":entry.status==="yellow"?"⚡ A medias":"❌ No seguí"}${entry.food?"\n🍽 "+entry.food:""}`:String(d);
+    grid.appendChild(dot);
+  }
+}
+function renderDList(){
+  const list=document.getElementById("d-list");
+  list.innerHTML="";
+  const entries=Object.entries(dD).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,40);
+  if(entries.length===0){
+    list.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:16px">Sin registros aún</div>';
+    return;
+  }
+  entries.forEach(([date,v])=>{
+    const[y,m,d]=date.split("-");
+    const bl={green:"✅ Completa",yellow:"⚡ A medias",red:"❌ No seguí"}[v.status];
+    const item=document.createElement("div");
+    item.className="diet-log-item";
+    item.innerHTML=`<div class="diet-log-header"><span class="diet-log-date">${d}/${m}/${y}</span><div style="display:flex;align-items:center;gap:8px"><span class="diet-badge ${v.status}">${bl}</span><button class="log-del" onclick="delDiet('${date}')">✕</button></div></div>${v.food?`<div class="diet-log-food">🍽 ${v.food}</div>`:""}${v.notes?`<div class="diet-log-notes">📝 ${v.notes}</div>`:""}`;
+    list.appendChild(item);
+  });
+}
+
+// ── INIT ──
+const todayStr=new Date().toISOString().split("T")[0];
+load();
+document.getElementById("w-date").value=todayStr;
+document.getElementById("d-date").value=todayStr;
+renderGym();
+</script>
+</body>
+</html>
