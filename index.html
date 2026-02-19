@@ -254,11 +254,11 @@ textarea.form-input{resize:vertical;min-height:56px;}
 .day-tab{padding:7px 14px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
 .day-tab.active{background:var(--accent);border-color:var(--accent);color:#000;}
 .exercise-editor{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:320px;overflow-y:auto;}
-.ex-row{display:flex;gap:6px;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.ex-row{display:flex;gap:6px;align-items:flex-start;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
 .ex-row-fields{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
 .ex-row-fields .form-input{font-size:12px;padding:7px 10px;}
-.ex-input-name{flex:2;min-width:120px;}
-.ex-input-sm{flex:1;min-width:60px;max-width:80px;}
+.ex-input-name{width:100%;min-width:0;}
+.ex-input-sm{flex:1;min-width:70px;}
 .ex-input-peso{flex:1;min-width:70px;max-width:90px;}
 
 /* Inline weight input in today view */
@@ -356,11 +356,13 @@ textarea.form-input{resize:vertical;min-height:56px;}
       <div class="day-tabs" id="day-tabs"></div>
       <div style="font-size:12px;color:var(--text2);margin-bottom:10px;font-weight:600" id="editing-day-label"></div>
       <div class="exercise-editor" id="exercise-editor"></div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;margin-top:4px">
-        <input type="text"   id="new-ex-name"   class="form-input ex-input-name" placeholder="Ejercicio (ej: Press banca)"/>
-        <input type="number" id="new-ex-reps"    class="form-input ex-input-sm"   placeholder="Reps"   min="1"/>
-        <input type="number" id="new-ex-series"  class="form-input ex-input-sm"   placeholder="Series" min="1"/>
-        <button class="btn-add" onclick="addExercise()">+ Agregar</button>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <input type="text" id="new-ex-name" class="form-input" placeholder="Ejercicio (ej: Press banca)" style="width:100%"/>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="new-ex-reps"   class="form-input" placeholder="Reps"   min="1" style="flex:1"/>
+          <input type="number" id="new-ex-series" class="form-input" placeholder="Series" min="1" style="flex:1"/>
+          <button class="btn-add" onclick="addExercise()" style="flex-shrink:0">+ Agregar</button>
+        </div>
       </div>
     </div>
     <div class="card">
@@ -797,13 +799,13 @@ function renderDayEditor(){
   }
   ed.innerHTML=exs.map((e,i)=>`
     <div class="ex-row">
-      <span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px">${i+1}.</span>
+      <span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px;padding-top:8px">${i+1}.</span>
       <div class="ex-row-fields">
-        <input class="form-input ex-input-name" value="${(e.name||"").replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)"/>
+        <input class="form-input ex-input-name" value="${(e.name||"").replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)" style="width:100%"/>
         <input class="form-input ex-input-sm" type="number" min="1" value="${e.reps||""}" placeholder="Reps" onchange="updateExercise(${i},'reps',this.value)"/>
         <input class="form-input ex-input-sm" type="number" min="1" value="${e.series||""}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
       </div>
-      <button class="btn-del" onclick="removeExercise(${i})">✕</button>
+      <button class="btn-del" onclick="removeExercise(${i})" style="padding-top:8px">✕</button>
     </div>`).join("");
 }
 
