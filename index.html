@@ -19,7 +19,7 @@
   --warn:#f59e0b;--warn-bg:#f59e0b12;
   --danger:#ff4757;--danger-bg:#ff475712;
   --ok:#00e676;--ok-bg:#00e67612;
-  --green:#00e676;--yellow:#ffd600;--red:#ff4757;
+  --green:#00e676;--yellow:#a855f7;--red:#ff4757;
 }
 :root[data-theme="light"]{
   --bg:#f2f5f9;--bg2:#ffffff;--bg3:#eaf0f8;--bg4:#dde8f5;
@@ -32,7 +32,7 @@
   --warn:#d97706;--warn-bg:#fef3c7;
   --danger:#dc2626;--danger-bg:#fee2e2;
   --ok:#059669;--ok-bg:#d1fae5;
-  --green:#059669;--yellow:#d97706;--red:#dc2626;
+  --green:#059669;--yellow:#9333ea;--red:#dc2626;
 }
 
 body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Space Grotesk','Helvetica Neue',sans-serif;transition:background .3s,color .3s;overflow-x:hidden;}
@@ -148,7 +148,7 @@ h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,4vw,44px);lett
 .day-cell:hover{transform:scale(1.15);border-color:var(--accent);}
 .day-cell.empty{opacity:0;pointer-events:none;}
 .day-cell.green{background:rgba(0,230,118,.1);border-color:var(--green);color:var(--green);}
-.day-cell.yellow{background:rgba(255,214,0,.1);border-color:var(--yellow);color:var(--yellow);}
+.day-cell.yellow{background:rgba(168,85,247,.1);border-color:var(--yellow);color:var(--yellow);}
 .day-cell.red{background:rgba(255,71,87,.1);border-color:var(--red);color:var(--red);}
 .day-cell.today{outline:2px solid var(--accent);outline-offset:1px;}
 
@@ -191,21 +191,21 @@ textarea.form-input{resize:vertical;min-height:56px;}
 .diet-status-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .diet-status-btn{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;letter-spacing:.3px;}
 .diet-status-btn.sel-green{background:rgba(0,230,118,.1);border-color:var(--green);color:var(--green);}
-.diet-status-btn.sel-yellow{background:rgba(255,214,0,.1);border-color:var(--yellow);color:var(--yellow);}
+.diet-status-btn.sel-yellow{background:rgba(168,85,247,.1);border-color:var(--yellow);color:var(--yellow);}
 .diet-status-btn.sel-red{background:rgba(255,71,87,.1);border-color:var(--red);color:var(--red);}
 .diet-cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
 .diet-cal-dow{text-align:center;font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.3px;}
 .diet-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 .diet-dot{aspect-ratio:1;border-radius:5px;background:var(--bg3);border:1px solid var(--border);}
 .diet-dot.green{background:rgba(0,230,118,.15);border-color:var(--green);}
-.diet-dot.yellow{background:rgba(255,214,0,.15);border-color:var(--yellow);}
+.diet-dot.yellow{background:rgba(168,85,247,.15);border-color:var(--yellow);}
 .diet-dot.red{background:rgba(255,71,87,.15);border-color:var(--red);}
 .diet-log-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;margin-bottom:6px;}
 .diet-log-header{display:flex;justify-content:space-between;align-items:center;}
 .diet-log-date{font-size:11px;color:var(--text2);font-family:'JetBrains Mono',monospace;}
 .diet-badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.4px;}
 .diet-badge.green{background:rgba(0,230,118,.12);color:var(--green);}
-.diet-badge.yellow{background:rgba(255,214,0,.12);color:var(--yellow);}
+.diet-badge.yellow{background:rgba(168,85,247,.12);color:var(--yellow);}
 .diet-badge.red{background:rgba(255,71,87,.12);color:var(--red);}
 .diet-log-food{color:var(--text2);font-size:11px;margin-top:5px;}
 .diet-log-notes{color:var(--text3);font-size:11px;margin-top:2px;font-style:italic;}
@@ -331,8 +331,8 @@ textarea.form-input{resize:vertical;min-height:56px;}
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px">
       <div class="stats-bar" style="margin-bottom:0">
         <div class="stat-card" style="border-color:rgba(0,230,118,.25)"><span class="stat-num" id="sg" style="color:var(--green)">0</span><span class="stat-lbl">Fui</span></div>
-        <div class="stat-card" style="border-color:rgba(255,214,0,.25)"><span class="stat-num" id="sy" style="color:var(--yellow)">0</span><span class="stat-lbl">A medias</span></div>
         <div class="stat-card" style="border-color:rgba(255,71,87,.25)"><span class="stat-num" id="sr" style="color:var(--red)">0</span><span class="stat-lbl">No fui</span></div>
+        <div class="stat-card" style="border-color:rgba(160,100,255,.25)"><span class="stat-num" id="sy" style="color:var(--yellow)">0</span><span class="stat-lbl">Descanso</span></div>
       </div>
       <div class="year-nav">
         <button class="year-btn" onclick="changeYear(-1)">◀</button>
@@ -461,7 +461,7 @@ textarea.form-input{resize:vertical;min-height:56px;}
           <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600;letter-spacing:.8px;text-transform:uppercase">¿Seguiste la dieta hoy?</div>
           <div class="diet-status-row">
             <button class="diet-status-btn" id="dsb-green" onclick="selDS('green')">✅ Completa</button>
-            <button class="diet-status-btn" id="dsb-yellow" onclick="selDS('yellow')">⚡ A medias</button>
+            <button class="diet-status-btn" id="dsb-yellow" onclick="selDS('yellow')">💤 Descanso</button>
             <button class="diet-status-btn" id="dsb-red" onclick="selDS('red')">❌ No seguí</button>
           </div>
           <div class="form-row" style="margin-top:8px">
@@ -476,7 +476,7 @@ textarea.form-input{resize:vertical;min-height:56px;}
           <h2>Stats del año</h2>
           <div class="stats-bar" style="margin-bottom:0">
             <div class="stat-card" style="border-color:rgba(0,230,118,.25);flex:1"><span class="stat-num" id="ds-g" style="color:var(--green)">0</span><span class="stat-lbl">Completa</span></div>
-            <div class="stat-card" style="border-color:rgba(255,214,0,.25);flex:1"><span class="stat-num" id="ds-y" style="color:var(--yellow)">0</span><span class="stat-lbl">A medias</span></div>
+            <div class="stat-card" style="border-color:rgba(168,85,247,.25);flex:1"><span class="stat-num" id="ds-y" style="color:var(--yellow)">0</span><span class="stat-lbl">Descanso</span></div>
             <div class="stat-card" style="border-color:rgba(255,71,87,.25);flex:1"><span class="stat-num" id="ds-r" style="color:var(--red)">0</span><span class="stat-lbl">No seguí</span></div>
           </div>
         </div>
@@ -921,7 +921,7 @@ function renderDCal(){
     const key=`${dYear}-${String(dMonth+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
     const entry=dD[key];const dot=document.createElement("div");
     dot.className="diet-dot"+(entry?" "+entry.status:"");
-    dot.title=entry?`${d}: ${entry.status==="green"?"✅ Completa":entry.status==="yellow"?"⚡ A medias":"❌ No seguí"}${entry.food?"\n🍽 "+entry.food:""}`:String(d);
+    dot.title=entry?`${d}: ${entry.status==="green"?"✅ Completa":entry.status==="yellow"?"💤 Descanso":"❌ No seguí"}${entry.food?"\n🍽 "+entry.food:""}`:String(d);
     grid.appendChild(dot);
   }
 }
@@ -931,7 +931,7 @@ function renderDList(){
   if(entries.length===0){list.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">Sin registros aún</div>';return;}
   entries.forEach(([date,v])=>{
     const[y,m,d]=date.split("-");
-    const bl={green:"✅ Completa",yellow:"⚡ A medias",red:"❌ No seguí"}[v.status];
+    const bl={green:"✅ Completa",yellow:"💤 Descanso",red:"❌ No seguí"}[v.status];
     const item=document.createElement("div");item.className="diet-log-item";
     item.innerHTML=`<div class="diet-log-header"><span class="diet-log-date">${d}/${m}/${y}</span><div style="display:flex;align-items:center;gap:8px"><span class="diet-badge ${v.status}">${bl}</span><button class="btn-del" onclick="delDiet('${date}')">✕</button></div></div>${v.food?`<div class="diet-log-food">🍽 ${v.food}</div>`:""}${v.notes?`<div class="diet-log-notes">📝 ${v.notes}</div>`:""}`;
     list.appendChild(item);
@@ -959,8 +959,8 @@ function renderGym(){
     for(let d=1;d<=days;d++){const s=gymD[`${gYear}-${mi}-${d}`];if(s==="green")mg++;else if(s==="yellow")my++;else if(s==="red")mr++;}
     let mini="";
     if(mg>0)mini+=`<span style="color:var(--green)">💪${mg}</span>`;
-    if(my>0)mini+=`<span style="color:var(--yellow)"> 😅${my}</span>`;
     if(mr>0)mini+=`<span style="color:var(--red)"> ❌${mr}</span>`;
+    if(my>0)mini+=`<span style="color:var(--yellow)"> 💤${my}</span>`;
     const card=document.createElement("div");card.className="month-card"+(isCur?" current":"");
     card.innerHTML=`<div class="month-header"><div><div class="month-name${isCur?" current-name":""}">${mn}</div><div class="month-mini-stats">${mini}</div></div>${isCur?'<span class="current-badge">ACTUAL</span>':""}</div><div class="dow-header">${DOW.map(d=>`<div class="dow-cell">${d}</div>`).join("")}</div><div class="days-grid" id="dg-${mi}"></div>`;
     grid.appendChild(card);
@@ -970,7 +970,7 @@ function renderGym(){
       const key=`${gYear}-${mi}-${d}`,st=gymD[key]??null,isT=isCur&&today.getDate()===d;
       const cell=document.createElement("div");
       cell.className="day-cell"+(st?" "+st:"")+(isT?" today":"");
-      cell.textContent=d;cell.title=st?({green:"Fui 💪",yellow:"A medias 😅",red:"No fui ❌"}[st]):"Sin marcar";
+      cell.textContent=d;cell.title=st?({green:"Fui 💪",yellow:"Descanso 💤",red:"No fui ❌"}[st]):"Sin marcar";
       cell.addEventListener("click",()=>toggleDay(mi,d));dg.appendChild(cell);
     }
   });
