@@ -73,7 +73,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 .modal{background:var(--bg2);border-radius:20px;padding:32px;max-width:460px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px var(--border2);animation:popIn .35s cubic-bezier(.16,1,.3,1);}
 @keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-icon{font-size:44px;text-align:center;margin-bottom:12px;}
-.modal-title{font-family:'Syne',sans-serif;font-size:26px;letter-spacing:-.5px;text-align:center;margin-bottom:4px;}
+.modal-title{font-family:'Syne',sans-serif;font-size:20px;letter-spacing:-.3px;text-align:center;margin-bottom:4px;font-weight:800;}
 .modal-subtitle{color:var(--text2);font-size:13px;text-align:center;margin-bottom:20px;}
 .modal-pay-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
 .modal-pay-item{border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;}
@@ -95,7 +95,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 /* ─── TOP BAR ─── */
 .top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;}
 .brand{display:flex;align-items:baseline;gap:12px;}
-h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,56px);letter-spacing:-2px;line-height:1;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(26px,4vw,38px);letter-spacing:-.5px;line-height:1;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;}
 .brand-sub{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:3px;text-transform:uppercase;padding-bottom:4px;}
 
 .theme-toggle{background:none;border:1px solid var(--border2);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,background .2s;font-size:16px;}
@@ -137,7 +137,7 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,56px);letter-spacing:-
 .month-card:hover{border-color:var(--border2);box-shadow:0 4px 20px var(--shadow);}
 .month-card.current{border-color:var(--accent);box-shadow:0 4px 24px var(--accent-glow);}
 .month-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
-.month-name{font-family:'Syne',sans-serif;font-size:18px;letter-spacing:-.5px;}
+.month-name{font-family:'Syne',sans-serif;font-size:15px;letter-spacing:-.3px;font-weight:800;}
 .month-name.current-name{color:var(--accent);}
 .month-mini-stats{display:flex;gap:8px;margin-top:4px;font-size:11px;font-weight:500;}
 .current-badge{font-size:9px;color:var(--accent);background:var(--accent-bg);padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:1px;}
@@ -157,8 +157,8 @@ h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,56px);letter-spacing:-
 
 /* ─── CARDS ─── */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:0 2px 12px var(--shadow);margin-bottom:16px;}
-.card h2{font-family:'Syne',sans-serif;font-size:15px;letter-spacing:-.3px;margin-bottom:16px;color:var(--accent);font-weight:800;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
-.card h2::before{content:"";display:block;width:3px;height:14px;background:var(--accent);border-radius:2px;}
+.card h2{font-family:'Syne',sans-serif;font-size:14px;letter-spacing:0px;margin-bottom:16px;color:var(--accent);font-weight:700;display:flex;align-items:center;gap:8px;}
+.card h2::before{content:"";display:block;width:3px;height:13px;background:var(--accent);border-radius:2px;}
 
 /* ─── FORMS ─── */
 .form-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
@@ -212,7 +212,7 @@ textarea.form-input{resize:vertical;min-height:56px;}
 
 /* ─── SECTION HEADER ─── */
 .section-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
-.section-header h2{font-family:'Syne',sans-serif;font-size:26px;letter-spacing:-1px;font-weight:800;}
+.section-header h2{font-family:'Syne',sans-serif;font-size:20px;letter-spacing:0px;font-weight:800;}
 
 /* ─── PAYMENTS ─── */
 .pay-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:0 2px 12px var(--shadow);display:flex;align-items:center;gap:14px;transition:border-color .2s,box-shadow .2s;}
@@ -238,15 +238,34 @@ textarea.form-input{resize:vertical;min-height:56px;}
 .today-routine{background:var(--bg2);border:1px solid var(--accent);border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 8px 32px var(--accent-glow),inset 0 0 40px var(--accent-bg);position:relative;overflow:hidden;}
 .today-routine::after{content:"";position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:var(--accent-glow);filter:blur(40px);pointer-events:none;}
 .today-routine h3{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px;}
-.today-routine .routine-day-name{font-family:'Syne',sans-serif;font-size:30px;letter-spacing:-1.5px;margin-bottom:12px;font-weight:800;}
-.exercise-list{display:flex;flex-direction:column;gap:6px;}
-.exercise-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;font-size:13px;display:flex;align-items:center;gap:10px;font-weight:500;}
+.today-routine .routine-day-name{font-family:'Syne',sans-serif;font-size:22px;letter-spacing:-.5px;margin-bottom:12px;font-weight:800;}
+.exercise-list{display:flex;flex-direction:column;gap:8px;}
+
+/* Exercise chip: nombre + series/reps + peso */
+.exercise-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:13px;display:flex;align-items:center;gap:10px;}
 .ex-num{color:var(--accent);font-size:11px;min-width:18px;font-family:'JetBrains Mono',monospace;font-weight:500;}
+.ex-name{flex:1;font-weight:600;font-size:13px;}
+.ex-pills{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.ex-pill{background:var(--accent-bg);border:1px solid rgba(0,212,255,.2);color:var(--accent);border-radius:6px;padding:3px 9px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;white-space:nowrap;}
+.ex-pill.weight{background:rgba(0,230,118,.08);border-color:rgba(0,230,118,.25);color:var(--green);}
+
+/* Editor de rutina */
 .day-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;}
 .day-tab{padding:7px 14px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
 .day-tab.active{background:var(--accent);border-color:var(--accent);color:#000;}
-.exercise-editor{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;max-height:240px;overflow-y:auto;}
-.ex-row{display:flex;gap:6px;align-items:center;}
+.exercise-editor{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:320px;overflow-y:auto;}
+.ex-row{display:flex;gap:6px;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.ex-row-fields{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
+.ex-row-fields .form-input{font-size:12px;padding:7px 10px;}
+.ex-input-name{flex:2;min-width:120px;}
+.ex-input-sm{flex:1;min-width:60px;max-width:80px;}
+.ex-input-peso{flex:1;min-width:70px;max-width:90px;}
+
+/* Inline weight input in today view */
+.ex-weight-inline{display:flex;align-items:center;gap:4px;}
+.ex-weight-input{width:72px;background:var(--input-bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 8px;outline:none;text-align:center;transition:border-color .2s;}
+.ex-weight-input:focus{border-color:var(--green);}
+.ex-weight-unit{font-size:11px;color:var(--text3);font-weight:500;}
 
 /* ─── FOOTER ─── */
 .footer{text-align:center;margin-top:48px;color:var(--text3);font-size:11px;letter-spacing:.8px;font-weight:500;}
@@ -335,10 +354,12 @@ textarea.form-input{resize:vertical;min-height:56px;}
     <div class="card">
       <h2>Editar rutina</h2>
       <div class="day-tabs" id="day-tabs"></div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;letter-spacing:.3px" id="editing-day-label"></div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;font-weight:600" id="editing-day-label"></div>
       <div class="exercise-editor" id="exercise-editor"></div>
-      <div class="form-row">
-        <input type="text" id="new-ex-input" class="form-input" placeholder="Ej: Press banca 4×10, Sentadilla 3×12..."/>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;margin-top:4px">
+        <input type="text"   id="new-ex-name"   class="form-input ex-input-name" placeholder="Ejercicio (ej: Press banca)"/>
+        <input type="number" id="new-ex-series"  class="form-input ex-input-sm"   placeholder="Series" min="1"/>
+        <input type="number" id="new-ex-reps"    class="form-input ex-input-sm"   placeholder="Reps"   min="1"/>
         <button class="btn-add" onclick="addExercise()">+ Agregar</button>
       </div>
     </div>
@@ -488,11 +509,11 @@ const MONTHS   = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agos
 const DOW      = ["Lu","Ma","Mi","Ju","Vi","Sá","Do"];
 const DAY_NAMES= ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const CYCLE    = [null,"green","yellow","red"];
-const K        = { gym:"gt-gym", w:"gt-weight", d:"gt-diet", th:"gt-theme", pay:"gt-pay", rut:"gt-rutina" };
+const K        = { gym:"gt-gym", w:"gt-weight", d:"gt-diet", th:"gt-theme", pay:"gt-pay", rut:"gt-rutina", pesos:"gt-pesos" };
 const RECUR_LABEL = {none:"Una sola vez",monthly:"Mensual",bimonthly:"Cada 2 meses",yearly:"Anual"};
 
 // ══ STATE ══
-let gymD={}, wD=[], dD={}, payD=[], rutD={};
+let gymD={}, wD=[], dD={}, payD=[], rutD={}, pesosD={};
 let gYear=new Date().getFullYear();
 let dYear=new Date().getFullYear(), dMonth=new Date().getMonth();
 let dStatus=null, selectedRecur="none";
@@ -505,6 +526,7 @@ function load(){
   try{dD=JSON.parse(localStorage.getItem(K.d)||"{}");}catch(_){}
   try{payD=JSON.parse(localStorage.getItem(K.pay)||"[]");}catch(_){}
   try{rutD=JSON.parse(localStorage.getItem(K.rut)||"{}");}catch(_){}
+  try{pesosD=JSON.parse(localStorage.getItem(K.pesos)||"{}");}catch(_){}
   applyTheme(localStorage.getItem(K.th)||"dark");
 }
 function sv(k,v){localStorage.setItem(k,JSON.stringify(v));}
@@ -557,7 +579,6 @@ function nextOccurrence(dateStr,recur){
 }
 
 function checkPaymentAlerts(){
-  if(payD.length===0) return;
   const urgent=[], soon=[];
   payD.forEach(p=>{
     const next=nextOccurrence(p.date,p.recur);
@@ -566,11 +587,16 @@ function checkPaymentAlerts(){
     else if(days<=7) soon.push({...p,days,nextDate:next});
   });
 
+  // Siempre actualizar badge
   const tabPayos=document.getElementById("tab-pagos");
   let badge=tabPayos.querySelector(".tab-badge");
   if(urgent.length>0||soon.length>0){
     if(!badge){badge=document.createElement("span");badge.className="tab-badge";tabPayos.appendChild(badge);}
-  } else if(badge) badge.remove();
+  } else {
+    if(badge) badge.remove();
+    closeAlert();
+    return;
+  }
 
   if(urgent.length>0){
     const items=urgent.map(p=>{
@@ -700,37 +726,101 @@ function renderPayments(){
 }
 
 // ══ RUTINA ══
+// Estructura de ejercicio: {name, series, reps, peso} — peso se guarda por día de sesión
+// rutD[dayIdx] = [{name, series, reps}]
+// pesosD[dateStr][dayIdx][exIdx] = kg
+
 function todayDayIdx(){const d=new Date().getDay();return d===0?6:d-1;}
+
 function renderRutina(){
   const ti=todayDayIdx();
+  const todayStr=new Date().toISOString().split("T")[0];
   document.getElementById("today-day-name").textContent=DAY_NAMES[ti];
   const exs=rutD[ti]||[];
   const exBox=document.getElementById("today-exercises");
-  exBox.innerHTML=exs.length===0
-    ?'<div style="color:var(--text2);font-size:13px;opacity:.7">No tenés ejercicios para hoy. Configurá tu rutina abajo 👇</div>'
-    :`<div class="exercise-list">${exs.map((e,i)=>`<div class="exercise-chip"><span class="ex-num">${i+1}.</span>${e}</div>`).join("")}</div>`;
+  if(exs.length===0){
+    exBox.innerHTML='<div style="color:var(--text2);font-size:13px;opacity:.7">No tenés ejercicios para hoy. Configurá tu rutina abajo 👇</div>';
+  } else {
+    const dayPesos=(pesosD[todayStr]&&pesosD[todayStr][ti])||{};
+    exBox.innerHTML=`<div class="exercise-list">${exs.map((e,i)=>{
+      const p=dayPesos[i]||"";
+      return `<div class="exercise-chip">
+        <span class="ex-num">${i+1}.</span>
+        <span class="ex-name">${e.name}</span>
+        <div class="ex-pills">
+          <span class="ex-pill">${e.series} series</span>
+          <span class="ex-pill">${e.reps} reps</span>
+          <div class="ex-weight-inline">
+            <input class="ex-weight-input" type="number" min="0" step="0.5" placeholder="—" value="${p}" title="Peso usado (kg)" onchange="savePeso('${todayStr}',${ti},${i},this.value)"/>
+            <span class="ex-weight-unit">kg</span>
+          </div>
+        </div>
+      </div>`;
+    }).join("")}</div>`;
+  }
   const tabs=document.getElementById("day-tabs");
   tabs.innerHTML=DAY_NAMES.map((n,i)=>`<button class="day-tab${i===editingDay?" active":""}" onclick="selectEditDay(${i})">${n.slice(0,3)}</button>`).join("");
   renderDayEditor();
   renderFullWeek();
 }
+
+function savePeso(dateStr,dayIdx,exIdx,val){
+  if(!pesosD[dateStr])pesosD[dateStr]={};
+  if(!pesosD[dateStr][dayIdx])pesosD[dateStr][dayIdx]={};
+  const v=parseFloat(val);
+  if(!isNaN(v)&&v>0) pesosD[dateStr][dayIdx][exIdx]=v;
+  else delete pesosD[dateStr][dayIdx][exIdx];
+  sv(K.pesos,pesosD);
+}
+
 function selectEditDay(i){editingDay=i;renderRutina();}
+
 function renderDayEditor(){
   document.getElementById("editing-day-label").textContent=`Ejercicios del ${DAY_NAMES[editingDay]}:`;
   const exs=rutD[editingDay]||[];
   const ed=document.getElementById("exercise-editor");
-  ed.innerHTML=exs.length===0
-    ?'<div style="color:var(--text3);font-size:12px;padding:8px">Sin ejercicios. Agregá uno abajo.</div>'
-    :exs.map((e,i)=>`<div class="ex-row"><span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px">${i+1}.</span><input class="form-input" value="${e.replace(/"/g,'&quot;')}" onchange="updateExercise(${i},this.value)" style="flex:1"/><button class="btn-del" onclick="removeExercise(${i})">✕</button></div>`).join("");
+  if(exs.length===0){
+    ed.innerHTML='<div style="color:var(--text3);font-size:12px;padding:8px">Sin ejercicios. Agregá uno abajo.</div>';
+    return;
+  }
+  ed.innerHTML=exs.map((e,i)=>`
+    <div class="ex-row">
+      <span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px">${i+1}.</span>
+      <div class="ex-row-fields">
+        <input class="form-input ex-input-name" value="${e.name.replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)"/>
+        <input class="form-input ex-input-sm" type="number" min="1" value="${e.series}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
+        <input class="form-input ex-input-sm" type="number" min="1" value="${e.reps}" placeholder="Reps" onchange="updateExercise(${i},'reps',this.value)"/>
+      </div>
+      <button class="btn-del" onclick="removeExercise(${i})">✕</button>
+    </div>`).join("");
 }
+
 function addExercise(){
-  const inp=document.getElementById("new-ex-input");
-  const val=inp.value.trim();if(!val)return;
+  const name=document.getElementById("new-ex-name").value.trim();
+  const series=parseInt(document.getElementById("new-ex-series").value)||4;
+  const reps=parseInt(document.getElementById("new-ex-reps").value)||10;
+  if(!name)return;
   if(!rutD[editingDay])rutD[editingDay]=[];
-  rutD[editingDay].push(val);sv(K.rut,rutD);inp.value="";renderRutina();
+  rutD[editingDay].push({name,series,reps});
+  sv(K.rut,rutD);
+  document.getElementById("new-ex-name").value="";
+  document.getElementById("new-ex-series").value="";
+  document.getElementById("new-ex-reps").value="";
+  renderRutina();
 }
-function updateExercise(idx,val){if(rutD[editingDay])rutD[editingDay][idx]=val;sv(K.rut,rutD);}
-function removeExercise(idx){if(rutD[editingDay])rutD[editingDay].splice(idx,1);sv(K.rut,rutD);renderRutina();}
+
+function updateExercise(idx,field,val){
+  if(!rutD[editingDay])return;
+  if(field==="series"||field==="reps") rutD[editingDay][idx][field]=parseInt(val)||1;
+  else rutD[editingDay][idx][field]=val;
+  sv(K.rut,rutD);
+}
+
+function removeExercise(idx){
+  if(rutD[editingDay])rutD[editingDay].splice(idx,1);
+  sv(K.rut,rutD);renderRutina();
+}
+
 function renderFullWeek(){
   document.getElementById("full-week").innerHTML=DAY_NAMES.map((n,i)=>{
     const exs=rutD[i]||[],isToday=i===todayDayIdx();
@@ -738,9 +828,14 @@ function renderFullWeek(){
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:${exs.length?8:0}px">
         <span style="font-family:'Syne',sans-serif;font-size:15px;letter-spacing:-.3px;font-weight:800;color:${isToday?"var(--accent)":"var(--text)"}">${n}</span>
         ${isToday?'<span style="font-size:9px;background:var(--accent-bg);color:var(--accent);padding:2px 9px;border-radius:20px;font-weight:700;letter-spacing:1px">HOY</span>':""}
-        <span style="margin-left:auto;font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.3px">${exs.length?exs.length+" ejercicio"+(exs.length>1?"s":""):"Descanso"}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3);font-weight:600">${exs.length?exs.length+" ejercicio"+(exs.length>1?"s":""):"Descanso"}</span>
       </div>
-      ${exs.length?`<div style="display:flex;flex-direction:column;gap:4px">${exs.map(e=>`<div style="font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px"><span style="color:var(--accent);font-size:10px">▸</span>${e}</div>`).join("")}</div>`:""}
+      ${exs.length?`<div style="display:flex;flex-direction:column;gap:5px">${exs.map(e=>`
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="color:var(--accent);font-size:10px">▸</span>
+          <span style="font-size:12px;color:var(--text2);flex:1">${e.name}</span>
+          <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)">${e.series}×${e.reps}</span>
+        </div>`).join("")}</div>`:""}
     </div>`;
   }).join("");
 }
