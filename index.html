@@ -242,10 +242,10 @@ textarea.form-input{resize:vertical;min-height:56px;}
 .exercise-list{display:flex;flex-direction:column;gap:8px;}
 
 /* Exercise chip: nombre + series/reps + peso */
-.exercise-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:13px;display:flex;align-items:center;gap:10px;}
-.ex-num{color:var(--accent);font-size:11px;min-width:18px;font-family:'JetBrains Mono',monospace;font-weight:500;}
-.ex-name{flex:1;font-weight:600;font-size:13px;}
-.ex-pills{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.exercise-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:13px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.ex-num{color:var(--accent);font-size:11px;min-width:18px;font-family:'JetBrains Mono',monospace;font-weight:500;flex-shrink:0;}
+.ex-name{flex:1;font-weight:600;font-size:13px;min-width:80px;}
+.ex-pills{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
 .ex-pill{background:var(--accent-bg);border:1px solid rgba(0,212,255,.2);color:var(--accent);border-radius:6px;padding:3px 9px;font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:500;white-space:nowrap;}
 .ex-pill.weight{background:rgba(0,230,118,.08);border-color:rgba(0,230,118,.25);color:var(--green);}
 
@@ -262,8 +262,8 @@ textarea.form-input{resize:vertical;min-height:56px;}
 .ex-input-peso{flex:1;min-width:70px;max-width:90px;}
 
 /* Inline weight input in today view */
-.ex-weight-inline{display:flex;align-items:center;gap:4px;}
-.ex-weight-input{width:72px;background:var(--input-bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 8px;outline:none;text-align:center;transition:border-color .2s;}
+.ex-weight-inline{display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.ex-weight-input{width:60px;background:var(--input-bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 8px;outline:none;text-align:center;transition:border-color .2s;}
 .ex-weight-input:focus{border-color:var(--green);}
 .ex-weight-unit{font-size:11px;color:var(--text3);font-weight:500;}
 
