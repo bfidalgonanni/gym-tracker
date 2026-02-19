@@ -358,8 +358,8 @@ textarea.form-input{resize:vertical;min-height:56px;}
       <div class="exercise-editor" id="exercise-editor"></div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;margin-top:4px">
         <input type="text"   id="new-ex-name"   class="form-input ex-input-name" placeholder="Ejercicio (ej: Press banca)"/>
-        <input type="number" id="new-ex-series"  class="form-input ex-input-sm"   placeholder="Series" min="1"/>
         <input type="number" id="new-ex-reps"    class="form-input ex-input-sm"   placeholder="Reps"   min="1"/>
+        <input type="number" id="new-ex-series"  class="form-input ex-input-sm"   placeholder="Series" min="1"/>
         <button class="btn-add" onclick="addExercise()">+ Agregar</button>
       </div>
     </div>
@@ -760,8 +760,8 @@ function renderRutina(){
         <span class="ex-num">${i+1}.</span>
         <span class="ex-name">${e.name}</span>
         <div class="ex-pills">
-          <span class="ex-pill">${e.series} series</span>
           <span class="ex-pill">${e.reps} reps</span>
+          <span class="ex-pill">${e.series} series</span>
           <div class="ex-weight-inline">
             <input class="ex-weight-input" type="number" min="0" step="0.5" placeholder="—" value="${p}" title="Peso usado (kg)" onchange="savePeso('${todayStr}',${ti},${i},this.value)"/>
             <span class="ex-weight-unit">kg</span>
@@ -800,8 +800,8 @@ function renderDayEditor(){
       <span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px">${i+1}.</span>
       <div class="ex-row-fields">
         <input class="form-input ex-input-name" value="${(e.name||"").replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)"/>
-        <input class="form-input ex-input-sm" type="number" min="1" value="${e.series||""}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
         <input class="form-input ex-input-sm" type="number" min="1" value="${e.reps||""}" placeholder="Reps" onchange="updateExercise(${i},'reps',this.value)"/>
+        <input class="form-input ex-input-sm" type="number" min="1" value="${e.series||""}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
       </div>
       <button class="btn-del" onclick="removeExercise(${i})">✕</button>
     </div>`).join("");
@@ -848,7 +848,7 @@ function renderFullWeek(){
         <div style="display:flex;align-items:center;gap:8px">
           <span style="color:var(--accent);font-size:10px">▸</span>
           <span style="font-size:12px;color:var(--text2);flex:1">${e.name}</span>
-          <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)">${e.series}×${e.reps}</span>
+          <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)">${e.reps}×${e.series}</span>
         </div>`).join("")}</div>`:""}
     </div>`;
   }).join("");
