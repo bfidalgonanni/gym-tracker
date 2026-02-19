@@ -525,8 +525,20 @@ function load(){
   try{wD=JSON.parse(localStorage.getItem(K.w)||"[]");}catch(_){}
   try{dD=JSON.parse(localStorage.getItem(K.d)||"{}");}catch(_){}
   try{payD=JSON.parse(localStorage.getItem(K.pay)||"[]");}catch(_){}
-  try{rutD=JSON.parse(localStorage.getItem(K.rut)||"{}");}catch(_){}
   try{pesosD=JSON.parse(localStorage.getItem(K.pesos)||"{}");}catch(_){}
+  try{
+    const raw=JSON.parse(localStorage.getItem(K.rut)||"{}");
+    // Migrar formato viejo (strings) al nuevo (objetos)
+    Object.keys(raw).forEach(k=>{
+      if(Array.isArray(raw[k])){
+        raw[k]=raw[k].map(e=>{
+          if(typeof e==="string") return {name:e,series:3,reps:10};
+          return e;
+        });
+      }
+    });
+    rutD=raw;
+  }catch(_){}
   applyTheme(localStorage.getItem(K.th)||"dark");
 }
 function sv(k,v){localStorage.setItem(k,JSON.stringify(v));}
@@ -787,9 +799,9 @@ function renderDayEditor(){
     <div class="ex-row">
       <span class="ex-num" style="color:var(--accent);min-width:20px;font-size:12px">${i+1}.</span>
       <div class="ex-row-fields">
-        <input class="form-input ex-input-name" value="${e.name.replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)"/>
-        <input class="form-input ex-input-sm" type="number" min="1" value="${e.series}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
-        <input class="form-input ex-input-sm" type="number" min="1" value="${e.reps}" placeholder="Reps" onchange="updateExercise(${i},'reps',this.value)"/>
+        <input class="form-input ex-input-name" value="${(e.name||"").replace(/"/g,'&quot;')}" placeholder="Ejercicio" onchange="updateExercise(${i},'name',this.value)"/>
+        <input class="form-input ex-input-sm" type="number" min="1" value="${e.series||""}" placeholder="Series" onchange="updateExercise(${i},'series',this.value)"/>
+        <input class="form-input ex-input-sm" type="number" min="1" value="${e.reps||""}" placeholder="Reps" onchange="updateExercise(${i},'reps',this.value)"/>
       </div>
       <button class="btn-del" onclick="removeExercise(${i})">✕</button>
     </div>`).join("");
@@ -810,15 +822,17 @@ function addExercise(){
 }
 
 function updateExercise(idx,field,val){
-  if(!rutD[editingDay])return;
+  if(!rutD[editingDay]||!rutD[editingDay][idx])return;
   if(field==="series"||field==="reps") rutD[editingDay][idx][field]=parseInt(val)||1;
   else rutD[editingDay][idx][field]=val;
   sv(K.rut,rutD);
 }
 
 function removeExercise(idx){
-  if(rutD[editingDay])rutD[editingDay].splice(idx,1);
-  sv(K.rut,rutD);renderRutina();
+  if(!rutD[editingDay])return;
+  rutD[editingDay].splice(idx,1);
+  sv(K.rut,rutD);
+  renderRutina();
 }
 
 function renderFullWeek(){
